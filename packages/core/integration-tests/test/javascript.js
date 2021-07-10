@@ -4476,4 +4476,21 @@ describe('javascript', function() {
       },
     );
   });
+
+  it('should preserve internalization in shared bundles when possible', async function() {
+    let b = await bundle(
+      path.join(
+        __dirname,
+        'integration/shared-bundle-internalization/index.mjs',
+      ),
+      {
+        mode: 'production',
+        defaultTargetOptions: {
+          shouldScopeHoist: false,
+        },
+      },
+    );
+
+    assert.deepEqual(await (await run(b)).default, [42, 42]);
+  });
 });
